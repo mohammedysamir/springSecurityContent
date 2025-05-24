@@ -1,14 +1,53 @@
 package com.security.demo.model;
 
-import lombok.Getter;
 import org.apache.coyote.BadRequestException;
 
 import java.util.List;
 
-@Getter
+
 public class Course {
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public List<String> getInstructors() {
+        return instructors;
+    }
+
+    public void setInstructors(List<String> instructors) {
+        this.instructors = instructors;
+    }
+
+    public Grade getGrade() {
+        return grade;
+    }
+
+    public void setGrade(Grade grade) {
+        this.grade = grade;
+    }
+
+    public String getYear() {
+        return year;
+    }
+
+    public void setYear(String year) {
+        this.year = year;
+    }
+
     //I created a constructor to add validation for CourseID
-    public Course(String id, String name, List<String> instructors, Grade grade, String year) throws BadRequestException {
+    public Course(String id, String name, List<String> instructors, Grade grade, String year){
         if (isCourseIdValid(id)) {
             this.id = id;
             this.name = name;
@@ -16,7 +55,11 @@ public class Course {
             this.grade = grade;
             this.year = year;
         } else {
-            throw new BadRequestException("Course ID must start with department name");
+            try {
+                throw new BadRequestException();
+            } catch (BadRequestException e) {
+                throw new RuntimeException("Course ID must start with department name");
+            }
         }
     }
 
