@@ -5,6 +5,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configurers.CsrfConfigurer;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -24,7 +25,12 @@ public class SecurityConfig {
         return http
                 .httpBasic(Customizer.withDefaults())
                 //allow only authenticated users
-                .authorizeHttpRequests(c -> c.anyRequest().authenticated())
+                .authorizeHttpRequests(c ->
+                        c
+                                .requestMatchers("/students").hasAnyRole("ADMIN", "STUDENT")
+                                .requestMatchers("/students/*").hasAnyRole("ADMIN", "STUDENT")
+                )
+                .csrf(CsrfConfigurer::disable)
                 .build();
     }
 
