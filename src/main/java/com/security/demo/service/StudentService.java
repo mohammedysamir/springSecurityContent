@@ -1,6 +1,7 @@
 package com.security.demo.service;
 
 import com.security.demo.entity.StudentEntity;
+import com.security.demo.exception.NotFoundException;
 import com.security.demo.mapper.StudentMapper;
 import com.security.demo.model.Course;
 import com.security.demo.model.CoursePatchDTO;
@@ -48,7 +49,7 @@ public class StudentService {
                 StudentMapper.INSTANCE.toDto(
                         studentEntity
                 )
-        )).orElseGet(List::of);
+        )).orElseThrow(() -> new NotFoundException("No student exist with provided id: " + id));
     }
 
     @PreAuthorize("hasAnyRole('ADMIN', 'STUDENT')")
@@ -66,7 +67,15 @@ public class StudentService {
 
     @PreAuthorize("hasRole('ADMIN')")
     public void deleteStudent(Long id) {
-        studentRepository.deleteById(id);
+        try {
+            if (null != id) {
+                studentRepository.deleteById(id);
+                return;
+            }
+            throw new BadRequestException("Null id is provided");
+        } catch (BadRequestException e) {
+            throw new RuntimeException(e.getMessage());
+        }
     }
 
     @PreAuthorize("hasRole('ADMIN')")
@@ -92,18 +101,18 @@ public class StudentService {
     @PreAuthorize("hasRole('ADMIN')")
     public Student updateStudent(Student student) {
         //validate the student exists
-        Optional<StudentEntity> optionalStudent = studentRepository.findById(student.getId());
-        if (optionalStudent.isPresent()) {
-            StudentEntity savedEntity = studentRepository.save(
-                    StudentMapper.INSTANCE.toEntity(student)
-            );
-
-            return StudentMapper.INSTANCE.toDto(savedEntity);
-        }
         try {
-            throw new BadRequestException();
-        } catch (BadRequestException e) {
-            throw new RuntimeException("Student doesn't exist to be updated, insert student data instead");
+            Optional<StudentEntity> optionalStudent = studentRepository.findById(student.getId());
+            if (optionalStudent.isPresent()) {
+                StudentEntity savedEntity = studentRepository.save(
+                        StudentMapper.INSTANCE.toEntity(student)
+                );
+
+                return StudentMapper.INSTANCE.toDto(savedEntity);
+            }
+            throw new NotFoundException("Student doesn't exist to be updated, insert student data instead");
+        } catch (NotFoundException e) {
+            throw new RuntimeException(e.getMessage());
         }
     }
 

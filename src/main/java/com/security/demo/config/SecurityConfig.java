@@ -29,6 +29,7 @@ public class SecurityConfig {
                         c
                                 .requestMatchers("/students").hasAnyRole("ADMIN", "STUDENT")
                                 .requestMatchers("/students/*").hasAnyRole("ADMIN", "STUDENT")
+                                .requestMatchers("/courses/*").hasRole("ADMIN")
                 )
                 .csrf(CsrfConfigurer::disable)
                 .build();

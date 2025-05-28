@@ -25,7 +25,7 @@ public class StudentController {
         this.studentService = studentService;
     }
 
-    @GetMapping("/")
+    @GetMapping
     public ResponseEntity<List<Student>> getStudents(@RequestParam(required = false) Long id) {
         List<Student> studentList;
         if (null != id) {
@@ -42,13 +42,13 @@ public class StudentController {
     }
 
 
-    @PostMapping("/")
+    @PostMapping
     public ResponseEntity<Student> createStudent(@RequestBody Student student) {
         return new ResponseEntity<>(studentService.createStudent(student), HttpStatus.OK);
     }
 
 
-    @PatchMapping("/")
+    @PatchMapping
     public ResponseEntity<Student> patchStudent(@RequestBody Student student) {
         return new ResponseEntity<>(studentService.updateStudent(student), HttpStatus.OK);
     }
