@@ -1,6 +1,5 @@
 package com.security.demo.service;
 
-import com.security.demo.model.security.StudentUserDetails;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;

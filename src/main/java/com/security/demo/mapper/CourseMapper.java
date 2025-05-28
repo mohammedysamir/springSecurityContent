@@ -1,9 +1,7 @@
 package com.security.demo.mapper;
 
 import com.security.demo.entity.CourseEntity;
-import com.security.demo.entity.StudentEntity;
 import com.security.demo.model.Course;
-import com.security.demo.model.Student;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 
