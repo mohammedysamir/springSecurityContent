@@ -1,7 +1,6 @@
 package com.security.demo.entity;
 
 import com.security.demo.model.Grade;
-import com.security.demo.model.Student;
 import jakarta.persistence.*;
 
 import java.util.List;
@@ -18,7 +17,7 @@ public class CourseEntity {
     private Grade grade;
     private String year;
     @ManyToMany(mappedBy = "courses")
-    List<Student> students;
+    List<StudentEntity> students;
 
     public String getId() {
         return id;
@@ -60,15 +59,15 @@ public class CourseEntity {
         this.year = year;
     }
 
-    public List<Student> getStudents() {
+    public List<StudentEntity> getStudents() {
         return students;
     }
 
-    public void setStudents(List<Student> students) {
+    public void setStudents(List<StudentEntity> students) {
         this.students = students;
     }
 
-    public CourseEntity(String id, String name, List<String> instructors, Grade grade, String year, List<Student> students) {
+    public CourseEntity(String id, String name, List<String> instructors, Grade grade, String year, List<StudentEntity> students) {
         this.id = id;
         this.name = name;
         this.instructors = instructors;

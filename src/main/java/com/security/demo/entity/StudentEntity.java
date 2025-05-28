@@ -26,12 +26,12 @@ public class StudentEntity {
             joinColumns = @JoinColumn(name = "student_id"),
             inverseJoinColumns = @JoinColumn(name = "course_id")
     )
-    List<Course> courses;
+    List<CourseEntity> courses;
 
     public StudentEntity() {
     }
 
-    public StudentEntity(Long id, String name, Date dateOfBirth, Date joinDate, Date graduateDate, Float GPA, Department department, List<Course> courses) {
+    public StudentEntity(Long id, String name, Date dateOfBirth, Date joinDate, Date graduateDate, Float GPA, Department department, List<CourseEntity> courses) {
         this.id = id;
         this.name = name;
         this.dateOfBirth = dateOfBirth;
@@ -98,11 +98,11 @@ public class StudentEntity {
         this.department = department;
     }
 
-    public List<Course> getCourses() {
+    public List<CourseEntity> getCourses() {
         return courses;
     }
 
-    public void setCourses(List<Course> courses) {
+    public void setCourses(List<CourseEntity> courses) {
         this.courses = courses;
     }
 }
