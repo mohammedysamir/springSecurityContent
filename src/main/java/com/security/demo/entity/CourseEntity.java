@@ -10,8 +10,7 @@ import java.util.List;
 @Table(name = "courses")
 public class CourseEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    private Long id;
+    private String id;
     private String name;
     @ElementCollection
     private List<String> instructors;
@@ -21,11 +20,11 @@ public class CourseEntity {
     @ManyToMany(mappedBy = "courses")
     List<Student> students;
 
-    public Long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -69,7 +68,7 @@ public class CourseEntity {
         this.students = students;
     }
 
-    public CourseEntity(Long id, String name, List<String> instructors, Grade grade, String year, List<Student> students) {
+    public CourseEntity(String id, String name, List<String> instructors, Grade grade, String year, List<Student> students) {
         this.id = id;
         this.name = name;
         this.instructors = instructors;

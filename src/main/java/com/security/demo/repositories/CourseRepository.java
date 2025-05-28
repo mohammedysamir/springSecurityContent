@@ -8,6 +8,6 @@ import org.springframework.stereotype.Repository;
 import java.util.Optional;
 
 @Repository
-public interface CourseRepository extends CrudRepository<CourseEntity, Long> {
+public interface CourseRepository extends CrudRepository<CourseEntity, String> {
     Optional<Course> findCourseByName(String name);
 }
