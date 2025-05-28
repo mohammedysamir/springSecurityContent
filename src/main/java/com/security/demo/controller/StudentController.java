@@ -15,18 +15,17 @@ import java.util.Date;
 import java.util.List;
 
 @RestController
+@RequestMapping("/students")
 @Slf4j
 public class StudentController {
 
     private final StudentService studentService;
-    private final CourseService courseService;
 
-    public StudentController(StudentService studentService, CourseService courseService) {
+    public StudentController(StudentService studentService) {
         this.studentService = studentService;
-        this.courseService = courseService;
     }
 
-    @GetMapping("/students")
+    @GetMapping("/")
     public ResponseEntity<List<Student>> getStudents(@RequestParam(required = false) Long id) {
         List<Student> studentList;
         if (null != id) {
@@ -37,30 +36,30 @@ public class StudentController {
         return new ResponseEntity<>(studentList, HttpStatus.OK);
     }
 
-    @GetMapping("/students/top50")
+    @GetMapping("/top50")
     public ResponseEntity<List<Student>> getTop50Students(@RequestParam String department) {
         return new ResponseEntity<>(studentService.getTop50Students(department), HttpStatus.OK);
     }
 
 
-    @PostMapping("/students")
+    @PostMapping("/")
     public ResponseEntity<Student> createStudent(@RequestBody Student student) {
         return new ResponseEntity<>(studentService.createStudent(student), HttpStatus.OK);
     }
 
 
-    @PatchMapping("/students")
+    @PatchMapping("/")
     public ResponseEntity<Student> patchStudent(@RequestBody Student student) {
         return new ResponseEntity<>(studentService.updateStudent(student), HttpStatus.OK);
     }
 
 
-    @PatchMapping("/students/courses")
+    @PatchMapping("/courses")
     public ResponseEntity<Student> patchStudentCourse(@RequestBody CoursePatchDTO dto) {
         return new ResponseEntity<>(studentService.updateStudentCourses(dto), HttpStatus.OK);
     }
 
-    @DeleteMapping("/students/{id}")
+    @DeleteMapping("/{id}")
     public void deleteStudent(@PathParam("id") Long id) {
         studentService.deleteStudent(id); //todo: return meaningful response
     }
