@@ -2,7 +2,6 @@ package com.security.demo.controller;
 
 import com.security.demo.model.CoursePatchDTO;
 import com.security.demo.model.Student;
-import com.security.demo.service.CourseService;
 import com.security.demo.service.StudentService;
 import jakarta.websocket.server.PathParam;
 import lombok.extern.slf4j.Slf4j;
@@ -10,8 +9,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -60,7 +57,8 @@ public class StudentController {
     }
 
     @DeleteMapping("/{id}")
-    public void deleteStudent(@PathParam("id") Long id) {
-        studentService.deleteStudent(id); //todo: return meaningful response
+    public ResponseEntity<Void> deleteStudent(@PathParam("id") Long id) {
+        studentService.deleteStudent(id);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }
