@@ -28,6 +28,9 @@ public class StudentEntity {
     )
     List<Course> courses;
 
+    public StudentEntity() {
+    }
+
     public StudentEntity(Long id, String name, Date dateOfBirth, Date joinDate, Date graduateDate, Float GPA, Department department, List<Course> courses) {
         this.id = id;
         this.name = name;
