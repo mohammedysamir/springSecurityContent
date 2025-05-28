@@ -13,6 +13,9 @@ import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.csrf.CsrfFilter;
+import org.springframework.security.web.csrf.CsrfTokenRepository;
+import org.springframework.security.web.csrf.HttpSessionCsrfTokenRepository;
 
 import java.util.List;
 
@@ -31,7 +34,11 @@ public class SecurityConfig {
                                 .requestMatchers("/students/*").hasAnyRole("ADMIN", "STUDENT")
                                 .requestMatchers("/courses/*").hasRole("ADMIN")
                 )
-                .csrf(CsrfConfigurer::disable)
+                .csrf(
+                        configurer -> configurer
+                                .csrfTokenRepository(csrfTokenRepository())
+                )
+                .addFilterAfter(new CsrfTokenFilter(), CsrfFilter.class)
                 .build();
     }
 
@@ -48,8 +55,15 @@ public class SecurityConfig {
         return new InMemoryUserDetailsManager(userList);
     }
 
+    //todo: use another encoder than NoOpPasswordEncoder
     @Bean
     public PasswordEncoder passwordEncoder() {
         return NoOpPasswordEncoder.getInstance();
+    }
+
+    private CsrfTokenRepository csrfTokenRepository() {
+        HttpSessionCsrfTokenRepository repository = new HttpSessionCsrfTokenRepository();
+        repository.setHeaderName("X-XSRF-TOKEN");
+        return repository;
     }
 }
